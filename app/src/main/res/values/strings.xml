@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Task_4_Adv_App</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--validation message-->
+    <string name="expense_item_null_value">Expense item cannot null</string>
+    <string name="number_validation">Must number</string>
+
+    <!--radio button-->
+    <string name="outcome_radio_button">Outcome</string>
+    <string name="income_radio_button">Income</string>
+</resources>
