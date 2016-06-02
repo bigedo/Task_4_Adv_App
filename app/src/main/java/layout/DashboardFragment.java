@@ -88,6 +88,7 @@ public class DashboardFragment extends Fragment {
         }
     }
 
+    CashFlow cf;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
@@ -107,7 +108,7 @@ public class DashboardFragment extends Fragment {
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(this.getContext(), recyclerView, new ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                CashFlow cf = dataset.get(position);
+                cf = dataset.get(position);
 //                toast(cf.getItem());
 
                 //setting up dialog
@@ -129,6 +130,17 @@ public class DashboardFragment extends Fragment {
                 dialogButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                Button deleteButton = (Button) dialog.findViewById(R.id.dialog_delete_button);
+                // if button is clicked, close the custom dialog
+                deleteButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        DatabaseHelper db = new DatabaseHelper(getContext());
+                        db.deleteData(cf.getId());
                         dialog.dismiss();
                     }
                 });
@@ -162,9 +174,10 @@ public class DashboardFragment extends Fragment {
         else{
             while(res.moveToNext()){
                 CashFlow cashFlow = new CashFlow();
-                cashFlow.setItem(res.getString(0));
-                cashFlow.setAmount(Integer.parseInt(res.getString(2)));
-                cashFlow.setType(res.getString(1));
+                cashFlow.setId(res.getString(0));
+                cashFlow.setItem(res.getString(1));
+                cashFlow.setAmount(Integer.parseInt(res.getString(3)));
+                cashFlow.setType(res.getString(2));
 
                 this.dataset.add(cashFlow);
             }

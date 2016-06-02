@@ -6,13 +6,16 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.UUID;
+
 /**
  * Created by bigedo on 5/24/2016.
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
-    public static final String DATABASE_NAME = "accounting";
+    public static final String DATABASE_NAME = "accounting_apps";
     public static final int DATABASE_VERSION = 1;
     public static final String TABLE_NAME = "accounting";
+    public static final String COL_ID = "id";
     public static final String COL_TYPE = "type";
     public static final String COL_ITEM = "item";
     public static final String COL_AMOUNT = "amount";
@@ -29,7 +32,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table " + TABLE_NAME + " (item string, type string, amount integer)");
+        db.execSQL("create table " + TABLE_NAME + " (id string, item string, type string, amount integer)");
     }
 
     @Override
@@ -40,8 +43,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public boolean insertNewData(String item, int amount, String type) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("delete from "+TABLE_NAME);
+//        db.execSQL("delete from "+TABLE_NAME);
         ContentValues contentValues = new ContentValues();
+        contentValues.put(COL_ID, randomizeId());
         contentValues.put(COL_ITEM, item);
         contentValues.put(COL_AMOUNT, amount);
         contentValues.put(COL_TYPE, type);
@@ -57,5 +61,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor res = db.rawQuery("select * from " + TABLE_NAME, null);
         return res;
+    }
+
+    public Integer deleteData(String id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(TABLE_NAME, "ID = ?", new String[] {id});
+
+    }
+
+    public String randomizeId(){
+        String uuid = UUID.randomUUID().toString().replace("-", "");
+        return uuid;
     }
 }

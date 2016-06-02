@@ -139,8 +139,9 @@ public class TransactionFragment extends Fragment implements View.OnClickListene
                     StringBuffer sbuffer = new StringBuffer();
                     while (res.moveToNext()) {
                         sbuffer.append("item :" + res.getString(0) + "\n" +
+                                "item :" + res.getString(1) + "\n" +
                                 " amount : " + res.getString(2) + "\n" +
-                                " type : " + res.getString(1) + "\n");
+                                " type : " + res.getString(3) + "\n");
                         resultTextView.append(sbuffer);
                     }
                     resultTextView.append("expense " + Boolean.toString(result)+" income ");
